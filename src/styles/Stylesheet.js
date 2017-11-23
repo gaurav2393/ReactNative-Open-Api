@@ -5,36 +5,36 @@ const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
 
     YCenter: {
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
 
     XCenter: {
-        alignItems: 'center'
+        alignItems: 'center',
     },
 
     FlexOne: {
-        flex: 1
+        flex: 1,
     },
 
-    ScreenWidthHeight: {
+    screenWidthHeight: {
         height: height,
         width: width,
     },
 
     WhiteBg: {
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
     },
 
     BlackBg: {
-        backgroundColor: '#343434'
+        backgroundColor: '#343434',
     },
 
     AppPaddingLeft: {
-        paddingLeft: 20
+        paddingLeft: 20,
     },
 
     AppPaddingRight: {
-        paddingRight: 20
+        paddingRight: 20,
     },
 
     AppPaddingX: {
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     },
 
     AppPaddingTop: {
-        paddingTop: 20
+        paddingTop: 20,
     },
     BoxUnderline: {
         borderColor: '#000',
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     h3: {
         fontSize: 18,
         fontWeight: '700',
-        color: '#333',
+        color: '#fff',
     },
 
     ActivityIndicator: {
@@ -62,49 +62,81 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
-    Text12BoldBlack : {
-        fontSize:12,
-        fontWeight:'600',
-        color:'#000',
-        fontFamily:'roboto'
+    Text12BoldBlack: {
+        fontSize: 12,
+        fontWeight: '600',
+        color: '#000',
+        fontFamily: 'roboto',
     },
 
-    Text12BoldWhite : {
-        fontSize:12,
-        fontWeight:'600',
-        color:'#fff',
-        fontFamily:'roboto'
+    Text12BoldWhite: {
+        fontSize: 12,
+        fontWeight: '600',
+        color: '#fff',
+        fontFamily: 'roboto',
     },
 
-    searchInstrumentRow : {
-        borderWidth:.5,
-        borderColor:'#000',
-        backgroundColor:'#444',
-        paddingHorizontal:20,
-        paddingVertical: 8
+    searchInstrumentRow: {
+        borderWidth: 0.5,
+        borderColor: '#000',
+        backgroundColor: '#444',
+        paddingHorizontal: 20,
+        paddingVertical: 8,
     },
 
     searchInstrumentRowMinorText: {
-        color:'#AAA',
-        fontSize:11,
-        fontWeight:'500',
-        fontFamily:'roboto',
+        color: '#AAA',
+        fontSize: 11,
+        fontWeight: '500',
+        fontFamily: 'roboto',
     },
-    
+
     tradeInstrumentRow: {
-        height:40,
-        padding:0,
-        paddingHorizontal:20,
+        height: 40,
+        padding: 0,
+        paddingHorizontal: 20,
         flexDirection: 'row',
         marginBottom: 5,
     },
 
     error: {
-        color:'red',
-        fontSize:16,
-        marginBottom:5,
-    }
+        color: 'red',
+        fontSize: 16,
+        marginBottom: 5,
+    },
 
-})
+    ordersTabRow: {
+        flexDirection: 'row',
+        paddingHorizontal: 15,
+        paddingVertical: 7,
+        borderBottomWidth: 0.5,
+        borderBottomColor: '#000',
+    },
 
-export default styles; 
+    searchInstrumentDefaultView: {
+        height: height - 60,
+        flex: 1,
+        backgroundColor: '#444',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    sellButton: {
+        flex: 1,
+        backgroundColor: '#c30101',
+        marginRight: 5,
+        height: 30,
+    },
+
+    textNDropdown: {
+        flexDirection: 'row',
+        height: 40,
+        padding: 0,
+        paddingHorizontal: 20,
+        marginTop: 5,
+        backgroundColor: '#000',
+    },
+
+});
+
+export default styles;
