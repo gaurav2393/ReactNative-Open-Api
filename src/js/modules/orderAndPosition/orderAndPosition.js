@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Container, Tab, Tabs, StyleProvider } from 'native-base';
-import OrdersTab from './ordersTab';
-import PositionTab from './positionTab';
+import { Container, Tab, Tabs, StyleProvider, Text } from 'native-base';
+// import OrdersTab from './ordersTab';
+// import PositionTab from './positionTab';
+import OrdersAndPositionTab from './ordersAndPositionTab';
 import * as queries from './queries';
 import getTheme from '../../../../native-base-theme/components';
 import material from '../../../../native-base-theme/variables/material';
@@ -40,14 +41,16 @@ export default class OrderAndPosition extends Component {
                 <Container>
                     <Tabs initialPage={0}>
                         <Tab heading="Orders">
-                            <OrdersTab {...this.props}
+                            
+                            <OrdersAndPositionTab {...this.props}
                                 currentAccountInformation={accounts[0]}
                                 tradeType="Order"
                                 fieldGroups={['DisplayAndFormat', 'ExchangeInfo']}
                             />
                         </Tab>
                         <Tab heading="Positions">
-                            <PositionTab {...this.props}
+                            
+                            <OrdersAndPositionTab {...this.props}
                                 currentAccountInformation={accounts[0]}
                                 tradeType="NetPosition"
                                 fieldGroups={['NetPositionView',
