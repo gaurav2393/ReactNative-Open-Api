@@ -1,114 +1,4 @@
-import React from 'react';
-import {
-    Text,
-    View,
-    ScrollView,
-} from 'react-native';
-import { roundUptoNDecimals } from '../../utils/global';
-import Stylesheet from '../../../styles/styleSheet';
-import _ from 'lodash';
-import PositionsTabHeader from './components/positionsTabHeader';
-import ActivityIndicator from '../../components/activityIndicator';
-import PropTypes from 'prop-types';
-
-export default function PositionTab(props) {
-    console.log('props in Position Tab', props);
-    return(
-        <View style={{ backgroundColor: '#444' }}>
-            <PositionsTabHeader />
-            {(props.isLoading) && (<ActivityIndicator
-                animating
-                color="#1E90FF"
-                size="large"
-            />
-            )}
-            {!_.isEmpty(props.trades) &&
-                <ScrollView>
-                    {_.map(props.trades, (value, key) => {
-                        return (
-                            value && <View key={key} style={{ flexDirection: 'row', paddingHorizontal: 15, paddingVertical: 7, borderBottomWidth: 0.5, borderBottomColor: '#000' }}>
-                                <View style={{ flex: 6 }}>
-                                    <Text style={Stylesheet.Text12BoldWhite}>{value.DisplayAndFormat.Description}</Text>
-                                    <View style={{ flexDirection: 'row' }}>
-                                        <Text style={Stylesheet.searchInstrumentRowMinorText}>{value.NetPositionBase.Amount}</Text>
-                                        <Text style={Stylesheet.searchInstrumentRowMinorText}>{` ${value.NetPositionView.Status}`}</Text>
-                                    </View>
-                                </View>
-
-                                <View style={{ flex: 2 }}>
-                                    <Text style={[Stylesheet.Text12BoldWhite, { color: value.NetPositionView.ProfitLossOnTrade + value.NetPositionView.TradeCostsTotal > 0 ? 'green' : '#e90101' }]}>
-                                        {
-                                            !isNaN(value.NetPositionView.ProfitLossOnTrade + 
-                                            value.NetPositionView.TradeCostsTotal) ?
-                                            `${roundUptoNDecimals(value.NetPositionView.ProfitLossOnTrade + value.NetPositionView.TradeCostsTotal, 0)} ${value.DisplayAndFormat.Currency}`
-                                            : ''
-                                        }
-                                    </Text>
-                                    <Text style={[Stylesheet.searchInstrumentRowMinorText, { color: value.NetPositionView.ProfitLossOnTradeInBaseCurrency + value.NetPositionView.TradeCostsTotalInBaseCurrency > 0 ? 'green' : '#e90101' }]}>
-                                        {
-                                            !isNaN(value.NetPositionView.ProfitLossOnTradeInBaseCurrency + 
-                                            value.NetPositionView.TradeCostsTotalInBaseCurrency)
-                                                ? roundUptoNDecimals(value.NetPositionView.ProfitLossOnTradeInBaseCurrency + 
-                                                value.NetPositionView.TradeCostsTotalInBaseCurrency, 0)
-                                            : ''
-                                        }
-                                    </Text>
-                                </View>
-
-                                <View style={{ flex: 2, alignItems: 'flex-end', paddingRight: 10 }}>
-                                    {value.SingleAndClosedPositions ? (value.SingleAndClosedPositions[0].PositionBase.Amount > 0 ?
-                                        <View style={{ flex: 1 }}>
-                                            <Text style={Stylesheet.Text12BoldWhite}>
-                                                {value.SingleAndClosedPositions[0].PositionView ?
-                                                    value.SingleAndClosedPositions[0].PositionView.CurrentPrice : ''
-                                                }
-                                            </Text>
-                                            <Text style={Stylesheet.searchInstrumentRowMinorText}>
-                                                {value.SingleAndClosedPositions[0].PositionBase ?
-                                                    value.SingleAndClosedPositions[0].PositionBase.OpenPrice : ''}
-                                            </Text>
-                                        </View> :
-                                        value.SingleAndClosedPositions[1] &&
-                                        <View style={{ flex: 1 }}>
-                                            <Text style={Stylesheet.Text12BoldWhite}>
-                                                {value.SingleAndClosedPositions[1].PositionView ?
-                                                    value.SingleAndClosedPositions[1].PositionView.CurrentPrice : ''}
-                                            </Text>
-                                            <Text style={Stylesheet.searchInstrumentRowMinorText}>
-                                                {value.SingleAndClosedPositions[1].PositionBase ?
-                                                    value.SingleAndClosedPositions[1].PositionBase.OpenPrice : ''}
-                                            </Text>
-                                        </View>
-                                    ) :
-                                        <View style={{ flex: 1 }}>
-                                            <Text style={Stylesheet.Text12BoldWhite}>
-                                                {value.NetPositionView.CurrentPrice}
-                                            </Text>
-                                            <Text style={Stylesheet.searchInstrumentRowMinorText}>
-                                                {value.NetPositionBase.OpenPrice}
-                                            </Text>
-                                        </View>
-                                    }
-                                </View>
-                            </View>
-                        );
-
-                    })}
-                </ScrollView>}
-
-        </View>
-    )
-}
-PositionTab.propTypes = {
-    isLoading: PropTypes.bool,
-    trades: PropTypes.object,
-}
-PositionTab.defaultProps = {
-    isLoading: false,
-    trades: {},
-}
-
-/*import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
     Text,
     View,
@@ -123,7 +13,7 @@ import _ from 'lodash';
 import PositionsTabHeader from './components/positionsTabHeader';
 import ActivityIndicator from '../../components/activityIndicator';
 
-export default class PositionTab extends Component {
+export default class PositionTab extends PureComponent {
     constructor(props) {
 
         super(props);
@@ -249,6 +139,7 @@ export default class PositionTab extends Component {
     render() {
         return (
             <View style={[Stylesheet.FlexOne, { backgroundColor: '#444' }]} >
+                {
                     <View style={{ backgroundColor: '#444' }}>
                         <PositionsTabHeader />
                         {(this.props.isLoading) && (<ActivityIndicator
@@ -261,28 +152,38 @@ export default class PositionTab extends Component {
                             <ScrollView>
                                 {_.map(this.trades, (value, key) => {
                                     return (
-                                        value && <View key={key} style={{ flexDirection: 'row', paddingHorizontal: 15, paddingVertical: 7, borderBottomWidth: 0.5, borderBottomColor: '#000' }}>
+                                        value && <View key={key} style={Stylesheet.ordersTabRow}>
                                             <View style={{ flex: 6 }}>
-                                                <Text style={Stylesheet.Text12BoldWhite}>{value.DisplayAndFormat.Description}</Text>
+                                                <Text style={Stylesheet.smallWhiteText}>
+                                                    {value.DisplayAndFormat.Description}
+                                                </Text>
                                                 <View style={{ flexDirection: 'row' }}>
-                                                    <Text style={Stylesheet.searchInstrumentRowMinorText}>{value.NetPositionBase.Amount}</Text>
-                                                    <Text style={Stylesheet.searchInstrumentRowMinorText}>{` ${value.NetPositionView.Status}`}</Text>
+                                                    <Text style={Stylesheet.searchInstrumentRowMinorText}>
+                                                        {value.NetPositionBase.Amount}
+                                                    </Text>
+                                                    <Text style={Stylesheet.searchInstrumentRowMinorText}>
+                                                        {` ${value.NetPositionView.Status}`}
+                                                    </Text>
                                                 </View>
                                             </View>
 
                                             <View style={{ flex: 2 }}>
-                                                <Text style={[Stylesheet.Text12BoldWhite, { color: value.NetPositionView.ProfitLossOnTrade > 0 ? 'green' : '#e90101' }]}>
+                                                <Text style={[Stylesheet.smallWhiteText, {
+                                                    color: value.NetPositionView.ProfitLossOnTrade + value.NetPositionView.TradeCostsTotal > 0 ? 'green' : '#e90101' }]}
+                                                >
                                                     {roundUptoNDecimals(value.NetPositionView.ProfitLossOnTrade + value.NetPositionView.TradeCostsTotal, 0)}
                                                     {` ${value.DisplayAndFormat.Currency}`}
                                                 </Text>
-                                                <Text style={[Stylesheet.searchInstrumentRowMinorText, { color: value.NetPositionView.ProfitLossOnTradeInBaseCurrency > 0 ? 'green' : '#e90101' }]}>
+                                                <Text style={[Stylesheet.searchInstrumentRowMinorText, {
+                                                    color: value.NetPositionView.ProfitLossOnTradeInBaseCurrency + value.NetPositionView.TradeCostsTotalInBaseCurrency > 0 ? 'green' : '#e90101' }]}
+                                                >
                                                     {roundUptoNDecimals(value.NetPositionView.ProfitLossOnTradeInBaseCurrency + value.NetPositionView.TradeCostsTotalInBaseCurrency, 0)}
                                                 </Text>
                                             </View>
 
                                             {value.SingleAndClosedPositions ? (value.SingleAndClosedPositions[0].PositionBase.Amount > 0 ?
                                                 <View style={{ flex: 2, alignItems: 'flex-end', paddingRight: 10 }}>
-                                                    <Text style={Stylesheet.Text12BoldWhite}>
+                                                    <Text style={Stylesheet.smallWhiteText}>
                                                         {value.SingleAndClosedPositions[0].PositionView ?
                                                             value.SingleAndClosedPositions[0].PositionView.CurrentPrice : ''
                                                         }
@@ -294,7 +195,7 @@ export default class PositionTab extends Component {
                                                 </View> :
                                                 value.SingleAndClosedPositions[1] &&
                                                 <View style={{ flex: 2, alignItems: 'flex-end', paddingRight: 10 }}>
-                                                    <Text style={Stylesheet.Text12BoldWhite}>
+                                                    <Text style={Stylesheet.smallWhiteText}>
                                                         {value.SingleAndClosedPositions[1].PositionView ?
                                                             value.SingleAndClosedPositions[1].PositionView.CurrentPrice : ''}
                                                     </Text>
@@ -305,7 +206,7 @@ export default class PositionTab extends Component {
                                                 </View>
                                             ) :
                                                 <View style={{ flex: 2, alignItems: 'flex-end', paddingRight: 10 }}>
-                                                    <Text style={Stylesheet.Text12BoldWhite}>
+                                                    <Text style={Stylesheet.smallWhiteText}>
                                                         {value.NetPositionView.CurrentPrice}
                                                     </Text>
                                                     <Text style={Stylesheet.searchInstrumentRowMinorText}>
@@ -315,11 +216,10 @@ export default class PositionTab extends Component {
                                             }
                                         </View>
                                     );
-
                                 })}
                             </ScrollView>}
-
                     </View>
+                }
             </View>
         );
     }
@@ -337,4 +237,4 @@ PositionTab.defaultProps = {
     isLoading: false,
     fieldGroups: [],
     tradeType: '',
-};*/
+};

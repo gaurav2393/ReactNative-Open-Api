@@ -1,14 +1,18 @@
-import React, { Component } from 'react';
-import { Container, Tab, Tabs, StyleProvider, Text } from 'native-base';
-// import OrdersTab from './ordersTab';
-// import PositionTab from './positionTab';
-import OrdersAndPositionTab from './ordersAndPositionTab';
+import React, { PureComponent } from 'react';
+import {
+    Container,
+    Tab,
+    Tabs,
+    StyleProvider,
+} from 'native-base';
+import OrdersTab from './ordersTab';
+import PositionTab from './positionTab';
 import * as queries from './queries';
 import getTheme from '../../../../native-base-theme/components';
 import material from '../../../../native-base-theme/variables/material';
 import { object } from 'prop-types';
 
-export default class OrderAndPosition extends Component {
+export default class OrderAndPosition extends PureComponent {
 
     constructor(props) {
         super(props);
@@ -34,23 +38,21 @@ export default class OrderAndPosition extends Component {
         this.setState({ selectedAccount: account });
     }
     render() {
-
+        console.log(this.props);
         const { accounts } = this.state;
         return (
             (accounts && accounts.length > 0) ? (<StyleProvider style={getTheme(material)}>
                 <Container>
                     <Tabs initialPage={0}>
                         <Tab heading="Orders">
-                            
-                            <OrdersAndPositionTab {...this.props}
+                            <OrdersTab {...this.props}
                                 currentAccountInformation={accounts[0]}
                                 tradeType="Order"
                                 fieldGroups={['DisplayAndFormat', 'ExchangeInfo']}
                             />
                         </Tab>
                         <Tab heading="Positions">
-                            
-                            <OrdersAndPositionTab {...this.props}
+                            <PositionTab {...this.props}
                                 currentAccountInformation={accounts[0]}
                                 tradeType="NetPosition"
                                 fieldGroups={['NetPositionView',

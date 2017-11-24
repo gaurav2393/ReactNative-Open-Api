@@ -1,84 +1,4 @@
-import React from 'react';
-import {
-    Text,
-    View,
-    ScrollView,
-} from 'react-native';
-import _ from 'lodash';
-import Stylesheet from '../../../styles/styleSheet';
-import OrdersTabHeader from './components/ordersTabHeader';
-import ActivityIndicator from '../../components/activityIndicator';
-import PropTypes from 'prop-types';
-
-export default function OrdersTab(props) {
-    console.log('props in orders Tab', props);
-    return(
-        <View style={{ backgroundColor: '#444' }}>
-
-            <OrdersTabHeader />
-
-            {(props.isLoading) && (<ActivityIndicator
-                animating
-                color="#1E90FF"
-                size="large"
-            />
-            )}
-
-            {!_.isEmpty(props.trades) &&
-            <ScrollView >
-
-                {_.map(props.trades, (value, key) => {
-                    return (
-                        value && <View key={key} style={Stylesheet.ordersTabRow}>
-                            <View style={{ flex: 6 }}>
-                                <Text style={Stylesheet.Text12BoldWhite}>{value.DisplayAndFormat.Description}</Text>
-                                <View style={{ flexDirection: 'row' }}>
-                                    <Text style={Stylesheet.searchInstrumentRowMinorText}>
-                                        {value.BuySell}
-                                    </Text>
-                                    <Text style={Stylesheet.searchInstrumentRowMinorText}>
-                                        {` - ${value.OpenOrderType}`}
-                                    </Text>
-                                </View>
-                            </View>
-
-                            <View style={{ flex: 2 }}>
-                                <Text style={Stylesheet.Text12BoldWhite}>
-                                    {value.Amount}
-                                </Text>
-                                <Text style={Stylesheet.searchInstrumentRowMinorText}>
-                                    {value.Price ? value.Price : '-'}
-                                </Text>
-                            </View>
-
-                            <View style={{ flex: 2, alignItems: 'flex-end', paddingRight: 10 }}>
-                                <Text style={Stylesheet.Text12BoldWhite}>
-                                    Stop
-                                </Text>
-                                <Text style={Stylesheet.searchInstrumentRowMinorText}>
-                                    Limit
-                                </Text>
-                            </View>
-                        </View>
-                    );
-
-                })}
-            </ScrollView>}
-
-        </View>
-    )
-}
-
-OrdersTab.propTypes = {
-    isLoading: PropTypes.bool,
-    trades: PropTypes.object,
-}
-OrdersTab.defaultProps = {
-    isLoading: false,
-    trades: {},
-}
-
-/*import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
     Text,
     View,
@@ -92,7 +12,7 @@ import { TRADE_TYPE } from '../../utils/constants';
 import OrdersTabHeader from './components/ordersTabHeader';
 import ActivityIndicator from '../../components/activityIndicator';
 
-export default class OrdersTab extends Component {
+export default class OrdersTab extends PureComponent {
     constructor(props) {
         super(props);
         this.state = { tradeUpdated: false };
@@ -187,7 +107,9 @@ export default class OrdersTab extends Component {
                             return (
                                 value && <View key={key} style={Stylesheet.ordersTabRow}>
                                     <View style={{ flex: 6 }}>
-                                        <Text style={Stylesheet.Text12BoldWhite}>{value.DisplayAndFormat.Description}</Text>
+                                        <Text style={Stylesheet.smallWhiteText}>
+                                            {value.DisplayAndFormat.Description}
+                                        </Text>
                                         <View style={{ flexDirection: 'row' }}>
                                             <Text style={Stylesheet.searchInstrumentRowMinorText}>
                                                 {value.BuySell}
@@ -199,7 +121,7 @@ export default class OrdersTab extends Component {
                                     </View>
 
                                     <View style={{ flex: 2 }}>
-                                        <Text style={Stylesheet.Text12BoldWhite}>
+                                        <Text style={Stylesheet.smallWhiteText}>
                                             {value.Amount}
                                         </Text>
                                         <Text style={Stylesheet.searchInstrumentRowMinorText}>
@@ -208,7 +130,7 @@ export default class OrdersTab extends Component {
                                     </View>
 
                                     <View style={{ flex: 2, alignItems: 'flex-end', paddingRight: 10 }}>
-                                        <Text style={Stylesheet.Text12BoldWhite}>
+                                        <Text style={Stylesheet.smallWhiteText}>
                                             Stop
                                         </Text>
                                         <Text style={Stylesheet.searchInstrumentRowMinorText}>
@@ -217,12 +139,9 @@ export default class OrdersTab extends Component {
                                     </View>
                                 </View>
                             );
-
                         })}
                     </ScrollView>}
-
                 </View>
-
             </View>
         );
     }
@@ -240,4 +159,4 @@ OrdersTab.defaultProps = {
     isLoading: false,
     fieldGroups: [],
     tradeType: '',
-};*/
+};
